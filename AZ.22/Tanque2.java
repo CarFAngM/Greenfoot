@@ -7,10 +7,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @version (a version number or a date)
  */
 public class Tanque2 extends Actor {
-    private int speed = 3;
+    private int speed = 2;
     private long lastShotTime = 0;
     private long shootingInterval = 5000;
     private boolean isTouchingParriba = false; // Variable para rastrear si está tocando "parriba"
+    private boolean disparamucho = false;
+    private long tiempoInicioDisparo = 0;
+    private int duracionDisparo = 8000;
 
     public void act() {
         int angle = getRotation();
@@ -20,9 +23,9 @@ public class Tanque2 extends Actor {
         int dy = (int) Math.round(speed * Math.sin(radians));
 
         if (Greenfoot.isKeyDown("d"))
-            setRotation(getRotation() + 2);
+            setRotation(getRotation() + 3);
         if (Greenfoot.isKeyDown("a"))
-            setRotation(getRotation() - 2);
+            setRotation(getRotation() - 3);
 
         // Solo permitir mover hacia abajo si no está tocando "parriba"
         if (Greenfoot.isKeyDown("s"))
@@ -38,6 +41,20 @@ public class Tanque2 extends Actor {
                 dispararBala();
                 lastShotTime = currentTime;
             }
+        }
+        if (isTouching(Dispararm.class)) {
+            removeTouching(Dispararm.class); // Eliminar el objeto Dispararm de la escena
+            disparamucho = true;
+            tiempoInicioDisparo = System.currentTimeMillis(); // Registro del inicio del disparo
+        }
+
+        // Permitir disparar balas mientras disparamucho es true y no ha pasado el tiempo de duración
+        if (disparamucho==true && (System.currentTimeMillis() - tiempoInicioDisparo) <= duracionDisparo) {
+            if (Greenfoot.isKeyDown("r")) {
+                dispararBala();
+            }
+        } else {
+            disparamucho = false; // Después de 8 segundos, desactivar el disparo continuo
         }
 
         if (isTouching(parriba.class)) {

@@ -8,17 +8,36 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Pantalla1 extends World
 {
+    private long startTime;
+    private long dispararmStartTime;
+    private long generarDispararmInterval = 10000;
 
-    /**
-     * Constructor for objects of class Pantalla1.
-     * 
-     */
-    public Pantalla1()
-    {    
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 400, 1); 
+    public Pantalla1() {
+        super(600, 400, 1);
         prepararMundo1();
+        startTime = System.currentTimeMillis();
+        dispararmStartTime = startTime + 1000;
     }
+
+    public void act(){
+       if (System.currentTimeMillis() - startTime >= 15000) {
+            // Verificar si han pasado 10 segundos desde la última generación de Dispararm
+            if (System.currentTimeMillis() - dispararmStartTime >= generarDispararmInterval) {
+                // Generar una posición aleatoria en el rango (520, 420, 1)
+                int randomX = (Greenfoot.getRandomNumber(52)+4) *10;
+                int randomY = (Greenfoot.getRandomNumber(33)+4) * 10;
+
+                // Agregar una instancia de Dispararm en la posición aleatoria
+                addObject(new Dispararm(), randomX, randomY);
+
+                // Reiniciar el tiempo para generar Dispararm nuevamente después de 10 segundos
+                dispararmStartTime = System.currentTimeMillis();
+            }
+    } 
+    if (getObjects(tanque1.class).isEmpty() || getObjects(Tanque2.class).isEmpty()) {
+            Greenfoot.setWorld(new Menú()); // Cambiar al mundo "Menu"
+        }
+}
     private void prepararMundo1(){
         addObject(new pizquierda(), 40,200);
         addObject(new pderecha(), 560,200);
@@ -74,6 +93,7 @@ public class Pantalla1 extends World
         removeObject(bala);
         removeObject(tanque);
     }
+    
     public void eliminarPared(Bala bala, Actor pared) {
         removeObject(bala);
         removeObject(pared);
@@ -82,10 +102,12 @@ public class Pantalla1 extends World
         removeObject(bala);
         removeObject(pared);
     }
+    
     public void intocables(Bala2 bala){
     removeObject(bala);
     }
     public void intocables2(Bala bala){
     removeObject(bala);
     }
+    
 }

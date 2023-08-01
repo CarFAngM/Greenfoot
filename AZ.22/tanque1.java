@@ -7,10 +7,14 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @version (a version number or a date)
  */
 public class tanque1 extends Actor {
-    private int speed = 3;
+    private int speed = 2;
     private long lastShotTime = 0;
     private long shootingInterval = 5000;
-    private boolean isTouchingParriba = false; // Variable para rastrear si está tocando "parriba"
+    private long shootingIntervalQM = 8000;
+    private boolean isTouchingParriba = false;// Variable para rastrear si está tocando "parriba"
+    private boolean disparamucho = false;
+    private long tiempoInicioDisparo = 0;
+    private int duracionDisparo = 8000;
 
     public void act() {
         int angle = getRotation();
@@ -20,9 +24,9 @@ public class tanque1 extends Actor {
         int dy = (int) Math.round(speed * Math.sin(radians));
 
         if (Greenfoot.isKeyDown("right"))
-            setRotation(getRotation() + 2);
+            setRotation(getRotation() + 3);
         if (Greenfoot.isKeyDown("left"))
-            setRotation(getRotation() - 2);
+            setRotation(getRotation() - 3);
 
         // Solo permitir mover hacia abajo si no está tocando "parriba"
         if (Greenfoot.isKeyDown("down"))
@@ -32,12 +36,26 @@ public class tanque1 extends Actor {
         if (Greenfoot.isKeyDown("up"))
             setLocation(getX() - dx, getY() - dy);
 
-        if (Greenfoot.isKeyDown("0")) {
+        if (Greenfoot.isKeyDown("m")) {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastShotTime >= shootingInterval) {
                 dispararBala();
                 lastShotTime = currentTime;
             }
+        }
+    if (isTouching(Dispararm.class)) {
+            removeTouching(Dispararm.class); // Eliminar el objeto Dispararm de la escena
+            disparamucho = true;
+            tiempoInicioDisparo = System.currentTimeMillis(); // Registro del inicio del disparo
+        }
+
+        // Permitir disparar balas mientras disparamucho es true y no ha pasado el tiempo de duración
+        if (disparamucho==true && (System.currentTimeMillis() - tiempoInicioDisparo) <= duracionDisparo) {
+            if (Greenfoot.isKeyDown("m")) {
+                dispararBala();
+            }
+        } else {
+            disparamucho = false; // Después de 8 segundos, desactivar el disparo continuo
         }
 
         if (isTouching(parriba.class)) {
