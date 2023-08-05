@@ -1,4 +1,6 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
+import java.util.Arrays;
+import greenfoot.World;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
  * Write a description of class Pantalla1 here.
@@ -10,7 +12,13 @@ public class Pantalla1 extends World
 {
     private long startTime;
     private long dispararmStartTime;
-    private long generarDispararmInterval = 10000;
+    private long dispararmStartTime2;
+    private long generarDispararmInterval = 250000;
+    private boolean notocable = false;
+    private long tiempoInicioNotocable = 0;
+    private int duracionNotocable = 8000; // 8 segundos en milisegundos
+
+    
 
     public Pantalla1() {
         super(600, 400, 1);
@@ -18,6 +26,7 @@ public class Pantalla1 extends World
         startTime = System.currentTimeMillis();
         dispararmStartTime = startTime + 1000;
     }
+    
 
     public void act(){
        if (System.currentTimeMillis() - startTime >= 15000) {
@@ -34,10 +43,26 @@ public class Pantalla1 extends World
                 dispararmStartTime = System.currentTimeMillis();
             }
     } 
+    if (System.currentTimeMillis() - startTime >= 20000) {
+            // Verificar si han pasado 10 segundos desde la última generación de Dispararm
+            if (System.currentTimeMillis() - dispararmStartTime2 >= generarDispararmInterval) {
+                // Generar una posición aleatoria en el rango (520, 420, 1)
+                int randomX = (Greenfoot.getRandomNumber(52)+4) *10;
+                int randomY = (Greenfoot.getRandomNumber(33)+4) * 10;
+
+                // Agregar una instancia de Dispararm en la posición aleatoria
+                addObject(new Bomba(), randomX, randomY);
+
+                // Reiniciar el tiempo para generar Dispararm nuevamente después de 10 segundos
+                dispararmStartTime2 = System.currentTimeMillis();
+            }
+    } 
     if (getObjects(tanque1.class).isEmpty() || getObjects(Tanque2.class).isEmpty()) {
-            Greenfoot.setWorld(new Menú()); // Cambiar al mundo "Menu"
+            Greenfoot.setWorld(new INICIO()); // Cambiar al mundo "Menu"
         }
+    
 }
+
     private void prepararMundo1(){
         addObject(new pizquierda(), 40,200);
         addObject(new pderecha(), 560,200);

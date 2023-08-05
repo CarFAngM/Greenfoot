@@ -8,8 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Bala extends Actor {
     private int speed = 5;
-
-    public void act() {
+    
+   public void act() {
+    try {
         move(speed);
     
         if (isAtEdge()) {
@@ -17,9 +18,13 @@ public class Bala extends Actor {
         }
         else {
             matar1();
-            
         }
+    } catch (Exception e) {
+        // Detener las operaciones y cambiar al mundo "Menú"
+        Greenfoot.setWorld(new INICIO());
     }
+}
+    
     public void matar1() {
         Actor tanque1 = getOneIntersectingObject(tanque1.class);
         Actor PA1 = getOneIntersectingObject(PA1.class);

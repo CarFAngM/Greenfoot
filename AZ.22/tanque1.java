@@ -15,6 +15,7 @@ public class tanque1 extends Actor {
     private boolean disparamucho = false;
     private long tiempoInicioDisparo = 0;
     private int duracionDisparo = 8000;
+    public boolean bombazo = false;
 
     public void act() {
         int angle = getRotation();
@@ -36,26 +37,25 @@ public class tanque1 extends Actor {
         if (Greenfoot.isKeyDown("up"))
             setLocation(getX() - dx, getY() - dy);
 
-        if (Greenfoot.isKeyDown("m")) {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastShotTime >= shootingInterval) {
-                dispararBala();
-                lastShotTime = currentTime;
-            }
-        }
     if (isTouching(Dispararm.class)) {
             removeTouching(Dispararm.class); // Eliminar el objeto Dispararm de la escena
             disparamucho = true;
             tiempoInicioDisparo = System.currentTimeMillis(); // Registro del inicio del disparo
         }
-
-        // Permitir disparar balas mientras disparamucho es true y no ha pasado el tiempo de duración
-        if (disparamucho==true && (System.currentTimeMillis() - tiempoInicioDisparo) <= duracionDisparo) {
-            if (Greenfoot.isKeyDown("m")) {
-                dispararBala();
+    if (Greenfoot.isKeyDown("m")) {
+            if (bombazo) {
+                for (int i = 0; i < 30; i++) {
+                    Bala2 nuevaBala = new Bala2();
+                    getWorld().addObject(nuevaBala, getX(), getY());
+                    nuevaBala.setRotation(Greenfoot.getRandomNumber(360)); // Dirección aleatoria
+                }
+                bombazo = false; // Desactivar el bombazo después de generar las nuevas balas
             }
+            if (disparamucho==true && (System.currentTimeMillis() - tiempoInicioDisparo) <= duracionDisparo) {
+                dispararBala();
         } else {
             disparamucho = false; // Después de 8 segundos, desactivar el disparo continuo
+        }
         }
 
         if (isTouching(parriba.class)) {
@@ -123,5 +123,8 @@ public class tanque1 extends Actor {
         Bala2 bala = new Bala2();
         getWorld().addObject(bala, getX(), getY());
         bala.setRotation(getRotation()+180); // La bala toma la misma orientación que el tanque
+    }
+    public void setBombazo(boolean bombazo) {
+        this.bombazo = bombazo;
     }
 }

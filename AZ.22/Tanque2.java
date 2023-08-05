@@ -13,7 +13,16 @@ public class Tanque2 extends Actor {
     private boolean isTouchingParriba = false; // Variable para rastrear si está tocando "parriba"
     private boolean disparamucho = false;
     private long tiempoInicioDisparo = 0;
+    private long tiempo = 0;
     private int duracionDisparo = 8000;
+    private boolean notocable = false; // Variable para rastrear si está tocando un objeto Escudo
+    private long tiempoInicioNotocable = 0;
+    private int duracionNotocable = 8000; // 8 segundos en milisegundos
+    private boolean bombasi = false;
+    public boolean bombazo = false;
+
+    
+    
 
     public void act() {
         int angle = getRotation();
@@ -21,7 +30,12 @@ public class Tanque2 extends Actor {
         double radians = Math.toRadians(angle);
         int dx = (int) Math.round(speed * Math.cos(radians));
         int dy = (int) Math.round(speed * Math.sin(radians));
+        Actor Bala2 = getOneIntersectingObject(Bala2.class);
+        
+            
 
+
+        
         if (Greenfoot.isKeyDown("d"))
             setRotation(getRotation() + 3);
         if (Greenfoot.isKeyDown("a"))
@@ -47,15 +61,25 @@ public class Tanque2 extends Actor {
             disparamucho = true;
             tiempoInicioDisparo = System.currentTimeMillis(); // Registro del inicio del disparo
         }
+        
 
         // Permitir disparar balas mientras disparamucho es true y no ha pasado el tiempo de duración
-        if (disparamucho==true && (System.currentTimeMillis() - tiempoInicioDisparo) <= duracionDisparo) {
-            if (Greenfoot.isKeyDown("r")) {
-                dispararBala();
+        if (Greenfoot.isKeyDown("r")) {
+            if (bombazo) {
+                for (int i = 0; i < 30; i++) {
+                    Bala nuevaBala = new Bala();
+                    getWorld().addObject(nuevaBala, getX(), getY());
+                    nuevaBala.setRotation(Greenfoot.getRandomNumber(360)); // Dirección aleatoria
+                }
+                bombazo = false; // Desactivar el bombazo después de generar las nuevas balas
             }
+            if (disparamucho==true && (System.currentTimeMillis() - tiempoInicioDisparo) <= duracionDisparo) {
+                dispararBala();
         } else {
             disparamucho = false; // Después de 8 segundos, desactivar el disparo continuo
         }
+        }
+        
 
         if (isTouching(parriba.class)) {
             isTouchingParriba = true;
@@ -123,5 +147,10 @@ public class Tanque2 extends Actor {
         getWorld().addObject(bala, getX(), getY());
         bala.setRotation(getRotation()+180); // La bala toma la misma orientación que el tanque
     }
+    public void setBombazo(boolean bombazo) {
+        this.bombazo = bombazo;
+    }
     
+
+    // Setter para establecer el valor de la variable
     }

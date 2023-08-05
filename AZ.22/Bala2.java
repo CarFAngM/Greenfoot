@@ -1,4 +1,6 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
+import greenfoot.Actor; 
+import greenfoot.World;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
  * Write a description of class Bala2 here.
@@ -15,13 +17,20 @@ public class Bala2 extends Actor
     private int speed = 5;
 
     public void act() {
+    try {
         move(speed);
+    
         if (isAtEdge()) {
             getWorld().removeObject(this);
-        } else {
+        }
+        else {
             matar2();
         }
+    } catch (Exception e) {
+        // Detener las operaciones y cambiar al mundo "Menú"
+       Greenfoot.setWorld(new INICIO());
     }
+}
     public void matar2(){
         Actor Tanque2 = getOneIntersectingObject(Tanque2.class);
         Actor PA1 = getOneIntersectingObject(PA1.class);
@@ -30,12 +39,13 @@ public class Bala2 extends Actor
         Actor pabajo = getOneIntersectingObject(pabajo.class);
         Actor pizquierda = getOneIntersectingObject(pizquierda.class);
         Actor pderecha = getOneIntersectingObject(pderecha.class);
-        if (Tanque2 != null) {
-        Pantalla1 mundo = (Pantalla1) getWorld();
-        mundo.eliminarBalaYTanque(this,Tanque2);
-    }
+        if (Tanque2!= null) {
+            Pantalla1 mundo = (Pantalla1) getWorld();
+            mundo.eliminarBalaYTanque(this, Tanque2);
+            
+}
     
-    if (PA1 != null) {
+    if (PA1!= null) {
         Pantalla1 mundo = (Pantalla1) getWorld();
         mundo.eliminarPared2(this, PA1);
     }
@@ -61,4 +71,8 @@ public class Bala2 extends Actor
         mundo.intocables(this);
     }
     }
+    public boolean getPared() {
+        
+    return (isTouching(PA1.class) || isTouching(PE1.class) || isTouching(parriba.class) || isTouching(pabajo.class) || isTouching(pizquierda.class) || isTouching(pderecha.class));
+}
 }
