@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Bala extends Actor {
     private int speed = 5;
-    
+    public boolean escudo = false;    
    public void act() {
     try {
         move(speed);
@@ -33,10 +33,16 @@ public class Bala extends Actor {
         Actor pabajo = getOneIntersectingObject(pabajo.class);
         Actor pizquierda = getOneIntersectingObject(pizquierda.class);
         Actor pderecha = getOneIntersectingObject(pderecha.class);
-        if (tanque1 != null) {
-        Pantalla1 mundo = (Pantalla1) getWorld();
-        mundo.eliminarBalaYTanque2(this, tanque1);
-    }
+       if (tanque1 != null) {
+         tanque1 tanque3 = (tanque1) getOneIntersectingObject(tanque1.class);
+            if (tanque3.escudo3 == true) {
+                Pantalla1 mundo = (Pantalla1) getWorld();
+                mundo.intocables2(this);
+            } else {
+                Pantalla1 mundo = (Pantalla1) getWorld();
+                mundo.eliminarBalaYTanque2(this, tanque3);
+            }
+        }
     
     if (PA1 != null) {
         Pantalla1 mundo = (Pantalla1) getWorld();
@@ -63,5 +69,12 @@ public class Bala extends Actor {
         Pantalla1 mundo = (Pantalla1) getWorld();
         mundo.intocables2(this);
     }
+    if (escudo) {
+        Pantalla1 mundo = (Pantalla1) getWorld();
+        mundo.intocables2(this);
+    }
+    }
+    public void setEscudo(boolean escudo) {
+        this.escudo = escudo;
     }
 }

@@ -5,4 +5,6 @@ comment1.params=
 comment1.target=void\ act()
 comment2.params=
 comment2.target=void\ matar1()
-numComments=3
+comment3.params=escudo
+comment3.target=void\ setEscudo(boolean)
+numComments=4

@@ -13,7 +13,9 @@ public class Pantalla1 extends World
     private long startTime;
     private long dispararmStartTime;
     private long dispararmStartTime2;
-    private long generarDispararmInterval = 250000;
+    private long dispararmStartTime3;
+    private long generarDispararmInterval = 25000;
+    private long generarDispararmInterval2 = 25000;
     private boolean notocable = false;
     private long tiempoInicioNotocable = 0;
     private int duracionNotocable = 8000; // 8 segundos en milisegundos
@@ -21,7 +23,7 @@ public class Pantalla1 extends World
     
 
     public Pantalla1() {
-        super(600, 400, 1);
+        super(600, 500, 1);
         prepararMundo1();
         startTime = System.currentTimeMillis();
         dispararmStartTime = startTime + 1000;
@@ -55,6 +57,20 @@ public class Pantalla1 extends World
 
                 // Reiniciar el tiempo para generar Dispararm nuevamente después de 10 segundos
                 dispararmStartTime2 = System.currentTimeMillis();
+            }
+    } 
+    if (System.currentTimeMillis() - startTime >= 18000) {
+            // Verificar si han pasado 10 segundos desde la última generación de Dispararm
+            if (System.currentTimeMillis() - dispararmStartTime3 >= generarDispararmInterval2) {
+                // Generar una posición aleatoria en el rango (520, 420, 1)
+                int randomX = (Greenfoot.getRandomNumber(52)+4) *10;
+                int randomY = (Greenfoot.getRandomNumber(33)+4) * 10;
+
+                // Agregar una instancia de Dispararm en la posición aleatoria
+                addObject(new Escudo(), randomX, randomY);
+
+                // Reiniciar el tiempo para generar Dispararm nuevamente después de 10 segundos
+                dispararmStartTime3 = System.currentTimeMillis();
             }
     } 
     if (getObjects(tanque1.class).isEmpty() || getObjects(Tanque2.class).isEmpty()) {
@@ -109,11 +125,12 @@ public class Pantalla1 extends World
         addObject(new PE1(), 470,190);
         addObject(new PA1(), 390,220);
         addObject(new PA1(), 440,220);
+        addObject(new Conteos(), 300,250);
     }
-    public void eliminarBalaYTanque(Bala2 bala,Actor tanque) {
-        removeObject(bala);
+    public void eliminarBalaYTanque(Bala2 bala, Actor tanque) {
+    removeObject(bala);
         removeObject(tanque);
-    }
+}
     public void eliminarBalaYTanque2(Bala bala, Actor tanque) {
         removeObject(bala);
         removeObject(tanque);
@@ -134,5 +151,5 @@ public class Pantalla1 extends World
     public void intocables2(Bala bala){
     removeObject(bala);
     }
-    
+        
 }

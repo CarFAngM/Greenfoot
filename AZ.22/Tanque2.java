@@ -13,13 +13,17 @@ public class Tanque2 extends Actor {
     private boolean isTouchingParriba = false; // Variable para rastrear si está tocando "parriba"
     private boolean disparamucho = false;
     private long tiempoInicioDisparo = 0;
+    private long tiempoInicioDisparo2 = 0;
     private long tiempo = 0;
     private int duracionDisparo = 8000;
+    private int duracionDisparo2 = 10000;
     private boolean notocable = false; // Variable para rastrear si está tocando un objeto Escudo
     private long tiempoInicioNotocable = 0;
     private int duracionNotocable = 8000; // 8 segundos en milisegundos
     private boolean bombasi = false;
     public boolean bombazo = false;
+    public boolean escudo = false;
+    public boolean escudosi = false;
 
     
     
@@ -61,6 +65,18 @@ public class Tanque2 extends Actor {
             disparamucho = true;
             tiempoInicioDisparo = System.currentTimeMillis(); // Registro del inicio del disparo
         }
+        if (isTouching(Escudo.class)) {
+    removeTouching(Escudo.class); // Eliminar el objeto Escudo de la escena
+    setEscudosi(true);
+    tiempoInicioDisparo2 = System.currentTimeMillis();
+    escudosi = true;
+}
+ if (escudosi==true && (System.currentTimeMillis() - tiempoInicioDisparo2) <= duracionDisparo) {
+                
+        } else {
+            setEscudosi(false);
+            escudosi = false; // Después de 8 segundos, desactivar el disparo continuo
+        }
         
 
         // Permitir disparar balas mientras disparamucho es true y no ha pasado el tiempo de duración
@@ -79,6 +95,7 @@ public class Tanque2 extends Actor {
             disparamucho = false; // Después de 8 segundos, desactivar el disparo continuo
         }
         }
+
         
 
         if (isTouching(parriba.class)) {
@@ -150,6 +167,10 @@ public class Tanque2 extends Actor {
     public void setBombazo(boolean bombazo) {
         this.bombazo = bombazo;
     }
+    public void setEscudosi(boolean escudo) {
+        this.escudo = escudo;
+    }
+    
     
 
     // Setter para establecer el valor de la variable

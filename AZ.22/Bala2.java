@@ -15,7 +15,7 @@ public class Bala2 extends Actor
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     private int speed = 5;
-
+    public boolean escudo2 = false;
     public void act() {
     try {
         move(speed);
@@ -39,11 +39,16 @@ public class Bala2 extends Actor
         Actor pabajo = getOneIntersectingObject(pabajo.class);
         Actor pizquierda = getOneIntersectingObject(pizquierda.class);
         Actor pderecha = getOneIntersectingObject(pderecha.class);
-        if (Tanque2!= null) {
-            Pantalla1 mundo = (Pantalla1) getWorld();
-            mundo.eliminarBalaYTanque(this, Tanque2);
-            
-}
+     if (Tanque2 != null) {
+         Tanque2 tanque2 = (Tanque2) getOneIntersectingObject(Tanque2.class);
+            if (tanque2.escudo == true) {
+                Pantalla1 mundo = (Pantalla1) getWorld();
+                mundo.intocables(this);
+            } else {
+                Pantalla1 mundo = (Pantalla1) getWorld();
+                mundo.eliminarBalaYTanque(this, Tanque2);
+            }
+        }
     
     if (PA1!= null) {
         Pantalla1 mundo = (Pantalla1) getWorld();
@@ -75,4 +80,7 @@ public class Bala2 extends Actor
         
     return (isTouching(PA1.class) || isTouching(PE1.class) || isTouching(parriba.class) || isTouching(pabajo.class) || isTouching(pizquierda.class) || isTouching(pderecha.class));
 }
+public void setEscudo(boolean escudo2) {
+        this.escudo2 = escudo2;
+    }
 }

@@ -14,8 +14,11 @@ public class tanque1 extends Actor {
     private boolean isTouchingParriba = false;// Variable para rastrear si está tocando "parriba"
     private boolean disparamucho = false;
     private long tiempoInicioDisparo = 0;
+    private long tiempoInicioDisparo2 = 0;
     private int duracionDisparo = 8000;
     public boolean bombazo = false;
+    public boolean escudosi = false;
+    public boolean escudo3 = false;
 
     public void act() {
         int angle = getRotation();
@@ -36,11 +39,29 @@ public class tanque1 extends Actor {
         // Permitir mover hacia arriba solo si no está tocando "parriba"
         if (Greenfoot.isKeyDown("up"))
             setLocation(getX() - dx, getY() - dy);
-
+    if (Greenfoot.isKeyDown("m")) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastShotTime >= shootingInterval) {
+                dispararBala();
+                lastShotTime = currentTime;
+            }
+        }
     if (isTouching(Dispararm.class)) {
             removeTouching(Dispararm.class); // Eliminar el objeto Dispararm de la escena
             disparamucho = true;
             tiempoInicioDisparo = System.currentTimeMillis(); // Registro del inicio del disparo
+        }
+            if (isTouching(Escudo.class)) {
+    removeTouching(Escudo.class); // Eliminar el objeto Escudo de la escena
+    setEscudosi(true);
+    tiempoInicioDisparo2 = System.currentTimeMillis();
+    escudosi = true;
+}
+ if (escudosi==true && (System.currentTimeMillis() - tiempoInicioDisparo2) <= duracionDisparo) {
+                
+        } else {
+            setEscudosi(false);
+            escudosi = false; // Después de 8 segundos, desactivar el disparo continuo
         }
     if (Greenfoot.isKeyDown("m")) {
             if (bombazo) {
@@ -126,5 +147,8 @@ public class tanque1 extends Actor {
     }
     public void setBombazo(boolean bombazo) {
         this.bombazo = bombazo;
+    }
+    public void setEscudosi(boolean escudo3) {
+        this.escudo3 = escudo3;
     }
 }
