@@ -9,6 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Bala extends Actor {
     private int speed = 5;
     public boolean escudo = false;    
+    private Contador2 contadorInstance = new Contador2();
    public void act() {
     try {
         move(speed);
@@ -41,6 +42,8 @@ public class Bala extends Actor {
             } else {
                 Pantalla1 mundo = (Pantalla1) getWorld();
                 mundo.eliminarBalaYTanque2(this, tanque3);
+                int currentContadorValue = contadorInstance.getContador();
+                contadorInstance.setContador(1);
             }
         }
     

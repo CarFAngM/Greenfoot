@@ -24,6 +24,7 @@ public class Tanque2 extends Actor {
     public boolean bombazo = false;
     public boolean escudo = false;
     public boolean escudosi = false;
+    public int contar = -1;
 
     
     
@@ -169,6 +170,12 @@ public class Tanque2 extends Actor {
     }
     public void setEscudosi(boolean escudo) {
         this.escudo = escudo;
+    }
+    public void setContador(int valor) {
+        contar = valor;
+    }
+     public int getContador() {
+        return contar;
     }
     
     

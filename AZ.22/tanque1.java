@@ -19,6 +19,7 @@ public class tanque1 extends Actor {
     public boolean bombazo = false;
     public boolean escudosi = false;
     public boolean escudo3 = false;
+    public int contar = -1;
 
     public void act() {
         int angle = getRotation();
@@ -150,5 +151,11 @@ public class tanque1 extends Actor {
     }
     public void setEscudosi(boolean escudo3) {
         this.escudo3 = escudo3;
+    }
+    public void setContador(int valor) {
+        contar = valor;
+    }
+     public int getContador() {
+        return contar;
     }
 }

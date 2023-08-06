@@ -16,6 +16,7 @@ public class Bala2 extends Actor
      */
     private int speed = 5;
     public boolean escudo2 = false;
+    private Contador contadorInstance = new Contador();
     public void act() {
     try {
         move(speed);
@@ -32,6 +33,7 @@ public class Bala2 extends Actor
     }
 }
     public void matar2(){
+        
         Actor Tanque2 = getOneIntersectingObject(Tanque2.class);
         Actor PA1 = getOneIntersectingObject(PA1.class);
         Actor PE1 = getOneIntersectingObject(PE1.class);
@@ -47,6 +49,8 @@ public class Bala2 extends Actor
             } else {
                 Pantalla1 mundo = (Pantalla1) getWorld();
                 mundo.eliminarBalaYTanque(this, Tanque2);
+                int currentContadorValue = contadorInstance.getContador();
+                contadorInstance.setContador(1);
             }
         }
     
