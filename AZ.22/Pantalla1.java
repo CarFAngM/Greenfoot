@@ -25,6 +25,8 @@ public class Pantalla1 extends World
     private boolean tanqueEliminado2 = false;
     private boolean contadorSumado2 = false;
     public int nuevoContador;
+    private static boolean soundStarted = false;
+    private GreenfootSound backgroundSound;
     
 
     public Pantalla1() {
@@ -32,11 +34,17 @@ public class Pantalla1 extends World
         prepararMundo1();
         startTime = System.currentTimeMillis();
         dispararmStartTime = startTime + 1000;
+        if (!soundStarted) {
+        backgroundSound = new GreenfootSound("Juego.wav");
+        backgroundSound.play();
+        soundStarted = true;
+        backgroundSound.playLoop(); 
+    }
     }
     
+     
 
     public void act(){
-        Greenfoot.playSound("JUEGO.mp3");
        if (System.currentTimeMillis() - startTime >= 15000) {
             // Verificar si han pasado 10 segundos desde la última generación de Dispararm
             if (System.currentTimeMillis() - dispararmStartTime >= generarDispararmInterval) {
@@ -80,7 +88,7 @@ public class Pantalla1 extends World
             }
     }
     if (getObjects(tanque1.class).isEmpty() || getObjects(Tanque2.class).isEmpty()) {
-            Greenfoot.setWorld(new Pantalla1()); // Cambiar al mundo "Menu"
+        Greenfoot.setWorld(new Pantalla1()); // Cambiar al mundo "Menu"
         }
         Contador contadorObjeto = new Contador();
     int contador = contadorObjeto.getContador();
@@ -89,6 +97,9 @@ public class Pantalla1 extends World
     Contador2 contadorObjeto2 = new Contador2();
     int contador2 = contadorObjeto2.getContador();
     showText("Puntos: " + contador2, 450, 450);
+    }
+    public void reset(){
+    soundStarted = false;
     }
     private void prepararMundo1(){
         addObject(new pizquierda(), 40,200);
